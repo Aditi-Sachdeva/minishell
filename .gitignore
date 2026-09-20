@@ -1,0 +1,32 @@
+# Compiled object files
+*.o
+*.obj
+
+# Executable binaries
+*.out
+*.exe
+
+# Debug files
+*.gch
+*.pch
+*.stackdump
+
+# IDE-specific folders
+.vscode/
+.vs/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Backup / temp files
+*~
+*.swp
+
+# Build output
+build/
+minishell
