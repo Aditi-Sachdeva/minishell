@@ -2,6 +2,7 @@
 #include <string.h>
 #include "shell.h"
 #include "parser.h"
+#include "executor.h"
 
 int main(void)
 {
@@ -32,10 +33,12 @@ int main(void)
             continue;
         }
 
-        for (int i = 0; args[i] != NULL; i++)
+        if (strcmp(args[0], "exit") == 0)
         {
-            printf("args[%d] = %s\n", i, args[i]);
+            break;
         }
+
+        run_external(args);
     }
 
     return 0;
