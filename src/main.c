@@ -3,6 +3,7 @@
 #include "shell.h"
 #include "parser.h"
 #include "executor.h"
+#include "builtins.h"
 
 int main(void)
 {
@@ -38,7 +39,14 @@ int main(void)
             break;
         }
 
-        run_external(args);
+        if (is_builtin(args[0]))
+        {
+            run_builtin(args);
+        }
+        else
+        {
+            run_external(args);
+        }
     }
 
     return 0;
