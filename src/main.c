@@ -2,6 +2,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 #include "shell.h"
 #include "parser.h"
 #include "builtins.h"
@@ -14,6 +15,10 @@ int main(void)
 
     while (1)
     {
+
+        while (waitpid(-1, NULL, WNOHANG) > 0)
+            ;
+
         printf(PROMPT);
         fflush(stdout);
 
@@ -35,6 +40,8 @@ int main(void)
         {
             break;
         }
+
+        int bg = has_background(args);
 
         if (has_pipe(args))
         {
@@ -82,7 +89,7 @@ int main(void)
         }
         else
         {
-            run_external(args, &r);
+            run_external(args, &r, bg);
         }
     }
 

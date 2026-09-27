@@ -36,10 +36,9 @@ static void apply_redirection(redirect_t *r)
     }
 }
 
-void run_external(char *args[], redirect_t *r)
+void run_external(char *args[], redirect_t *r, int background)
 {
     pid_t pid = fork();
-
     if (pid < 0)
     {
         perror("fork");
@@ -54,7 +53,14 @@ void run_external(char *args[], redirect_t *r)
         _exit(1);
     }
 
-    waitpid(pid, NULL, 0);
+    if (background)
+    {
+        printf("[background pid %d]\n", pid);
+    }
+    else
+    {
+        waitpid(pid, NULL, 0);
+    }
 }
 
 void run_pipeline(char *left[], char *right[])

@@ -16,4 +16,6 @@ void extract_redirection(char *args[], redirect_t *r);
 int has_pipe(char *args[]);
 void split_pipe(char *args[], char *left[], char *right[]);
 
+int has_background(char *args[]);
+
 #endif
