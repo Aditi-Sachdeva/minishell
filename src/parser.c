@@ -67,3 +67,38 @@ void extract_redirection(char *args[], redirect_t *r)
         args[k] = clean[k];
     }
 }
+
+int has_pipe(char *args[])
+{
+    for (int i = 0; args[i] != NULL; i++)
+    {
+        if (strcmp(args[i], "|") == 0)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+void split_pipe(char *args[], char *left[], char *right[])
+{
+    int i = 0;
+    while (args[i] != NULL && strcmp(args[i], "|") != 0)
+    {
+        left[i] = args[i];
+        i++;
+    }
+    left[i] = NULL;
+
+    int j = 0;
+    if (args[i] != NULL)
+    {
+        i++;
+        while (args[i] != NULL)
+        {
+            right[j++] = args[i];
+            i++;
+        }
+    }
+    right[j] = NULL;
+}
