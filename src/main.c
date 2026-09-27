@@ -18,7 +18,6 @@ int main(void)
 
     while (1)
     {
-
         while (waitpid(-1, NULL, WNOHANG) > 0)
             ;
 
@@ -27,8 +26,13 @@ int main(void)
 
         if (fgets(line, sizeof(line), stdin) == NULL)
         {
-            printf("\n");
-            break;
+            if (feof(stdin))
+            {
+                printf("\n");
+                break;
+            }
+            clearerr(stdin);
+            continue;
         }
 
         line[strcspn(line, "\n")] = '\0';
