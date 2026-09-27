@@ -7,11 +7,14 @@
 #include "parser.h"
 #include "builtins.h"
 #include "executor.h"
+#include "signals.h"
 
 int main(void)
 {
     char line[1024];
     char *args[MAX_ARGS];
+
+    setup_signals();
 
     while (1)
     {
