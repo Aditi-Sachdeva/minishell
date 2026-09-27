@@ -56,3 +56,40 @@ void run_external(char *args[], redirect_t *r)
 
     waitpid(pid, NULL, 0);
 }
+
+void run_pipeline(char *left[], char *right[])
+{
+    int fd[2];
+    if (pipe(fd) < 0)
+    {
+        perror("pipe");
+        return;
+    }
+
+    pid_t pid1 = fork();
+    if (pid1 == 0)
+    {
+        dup2(fd[1], 1);
+        close(fd[0]);
+        close(fd[1]);
+        execvp(left[0], left);
+        fprintf(stderr, "minishell: %s: command not found\n", left[0]);
+        _exit(1);
+    }
+
+    pid_t pid2 = fork();
+    if (pid2 == 0)
+    {
+        dup2(fd[0], 0);
+        close(fd[0]);
+        close(fd[1]);
+        execvp(right[0], right);
+        fprintf(stderr, "minishell: %s: command not found\n", right[0]);
+        _exit(1);
+    }
+
+    close(fd[0]);
+    close(fd[1]);
+    waitpid(pid1, NULL, 0);
+    waitpid(pid2, NULL, 0);
+}

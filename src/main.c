@@ -27,16 +27,30 @@ int main(void)
 
         int count = parse(line, args);
         if (count == 0)
+        {
             continue;
+        }
 
         if (strcmp(args[0], "exit") == 0)
+        {
             break;
+        }
+
+        if (has_pipe(args))
+        {
+            char *left[MAX_ARGS], *right[MAX_ARGS];
+            split_pipe(args, left, right);
+            run_pipeline(left, right);
+            continue;
+        }
 
         redirect_t r;
         extract_redirection(args, &r);
 
-        if (args[0] == NULL) /* line was only an operator */
+        if (args[0] == NULL)
+        {
             continue;
+        }
 
         if (is_builtin(args[0]))
         {
