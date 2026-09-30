@@ -43,6 +43,8 @@ int main(void)
             continue;
         }
 
+        expand_variables(args);
+        
         if (strcmp(args[0], "exit") == 0)
         {
             break;

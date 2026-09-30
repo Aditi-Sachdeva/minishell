@@ -18,4 +18,6 @@ void split_pipe(char *args[], char *left[], char *right[]);
 
 int has_background(char *args[]);
 
+void expand_variables(char *args[]);
+
 #endif
