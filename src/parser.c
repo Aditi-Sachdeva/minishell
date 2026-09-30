@@ -4,13 +4,36 @@
 int parse(char *line, char *args[])
 {
     int count = 0;
-    char *word = strtok(line, " \t");
+    int i = 0;
 
-    while (word != NULL && count < MAX_ARGS - 1)
-    {
-        args[count] = word;
-        count++;
-        word = strtok(NULL, " \t");
+    while (line[i] != '\0' && count < MAX_ARGS - 1) {
+        while (line[i] == ' ' || line[i] == '\t'){
+            i++;
+        }
+        if (line[i] == '\0'){
+            break;
+        }
+
+        if (line[i] == '"') {
+            i++;                
+            args[count++] = &line[i];
+            while (line[i] != '"' && line[i] != '\0'){
+                i++;
+            }
+            if (line[i] == '"') {
+                line[i] = '\0'; 
+                i++;
+            }
+        } else {
+            args[count++] = &line[i];
+            while (line[i] != ' ' && line[i] != '\t' && line[i] != '\0'){
+                i++;
+            }
+            if (line[i] != '\0') {
+                line[i] = '\0';
+                i++;
+            }
+        }
     }
 
     args[count] = NULL;
