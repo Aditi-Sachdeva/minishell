@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include "parser.h"
 
@@ -53,7 +54,6 @@ int parse(char *line, char *args[])
 
 void extract_redirection(char *args[], redirect_t *r)
 {
-
     r->input_file = NULL;
     r->output_file = NULL;
     r->append = 0;
@@ -70,6 +70,12 @@ void extract_redirection(char *args[], redirect_t *r)
                 r->input_file = args[i + 1];
                 i++;
             }
+            else
+            {
+                printf("minishell: syntax error: expected filename after '<'\n");
+                args[0] = NULL;
+                return;
+            }
         }
         else if (strcmp(args[i], ">") == 0)
         {
@@ -79,6 +85,12 @@ void extract_redirection(char *args[], redirect_t *r)
                 r->append = 0;
                 i++;
             }
+            else
+            {
+                printf("minishell: syntax error: expected filename after '>'\n");
+                args[0] = NULL;
+                return;
+            }
         }
         else if (strcmp(args[i], ">>") == 0)
         {
@@ -87,6 +99,12 @@ void extract_redirection(char *args[], redirect_t *r)
                 r->output_file = args[i + 1];
                 r->append = 1;
                 i++;
+            }
+            else
+            {
+                printf("minishell: syntax error: expected filename after '>>'\n");
+                args[0] = NULL;
+                return;
             }
         }
         else
@@ -144,6 +162,7 @@ int has_background(char *args[])
     {
         i++;
     }
+
     if (i > 0 && strcmp(args[i - 1], "&") == 0)
     {
         args[i - 1] = NULL;

@@ -44,7 +44,7 @@ int main(void)
         }
 
         expand_variables(args);
-        
+
         if (strcmp(args[0], "exit") == 0)
         {
             break;
@@ -56,6 +56,11 @@ int main(void)
         {
             char *left[MAX_ARGS], *right[MAX_ARGS];
             split_pipe(args, left, right);
+            if (left[0] == NULL || right[0] == NULL)
+            {
+                printf("minishell: syntax error near unexpected token '|'\n");
+                continue;
+            }
             run_pipeline(left, right);
             continue;
         }
@@ -71,6 +76,7 @@ int main(void)
         if (is_builtin(args[0]))
         {
             int saved_stdout = -1;
+            int redirect_failed = 0;
 
             if (r.output_file != NULL)
             {
@@ -79,6 +85,7 @@ int main(void)
                 if (fd < 0)
                 {
                     perror(r.output_file);
+                    redirect_failed = 1;
                 }
                 else
                 {
@@ -88,7 +95,10 @@ int main(void)
                 }
             }
 
-            run_builtin(args);
+            if (!redirect_failed)
+            {
+                run_builtin(args);
+            }
 
             if (saved_stdout != -1)
             {
