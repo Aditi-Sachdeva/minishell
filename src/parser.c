@@ -57,6 +57,7 @@ void extract_redirection(char *args[], redirect_t *r)
     r->input_file = NULL;
     r->output_file = NULL;
     r->append = 0;
+    r->error_file = NULL;
 
     char *clean[MAX_ARGS];
     int j = 0;
@@ -103,6 +104,20 @@ void extract_redirection(char *args[], redirect_t *r)
             else
             {
                 printf("minishell: syntax error: expected filename after '>>'\n");
+                args[0] = NULL;
+                return;
+            }
+        }
+        else if (strcmp(args[i], "2>") == 0)
+        {
+            if (args[i + 1] != NULL)
+            {
+                r->error_file = args[i + 1];
+                i++;
+            }
+            else
+            {
+                printf("minishell: syntax error: expected filename after '2>'\n");
                 args[0] = NULL;
                 return;
             }

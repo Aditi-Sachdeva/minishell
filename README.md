@@ -21,6 +21,7 @@ execution, and signal handling.
 - External command execution using fork, execvp, waitpid
 - Built-in commands: cd, pwd, echo, help, exit
 - Input redirection (<), output redirection (>), append redirection (>>)
+- Error output redirection (2>)
 - Single-stage pipes (cmd1 | cmd2)
 - Background execution (&) with zombie process reaping
 - SIGINT (Ctrl+C) handled so the shell survives, using sigaction

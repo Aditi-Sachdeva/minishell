@@ -8,6 +8,8 @@ typedef struct
     char *input_file;
     char *output_file;
     int append;
+    char *error_file;
+
 } redirect_t;
 
 int parse(char *line, char *args[]);

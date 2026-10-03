@@ -34,6 +34,18 @@ static void apply_redirection(redirect_t *r)
         dup2(fd, 1);
         close(fd);
     }
+
+    if (r->error_file != NULL)
+    {
+        int fd = open(r->error_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+        if (fd < 0)
+        {
+            perror(r->error_file);
+            _exit(1);
+        }
+        dup2(fd, 2);
+        close(fd);
+    }
 }
 
 void run_external(char *args[], redirect_t *r, int background)
